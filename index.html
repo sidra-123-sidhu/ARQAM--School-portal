@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ur" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +48,7 @@
   .crest{ width:60px; height:60px; border-radius:50%; overflow:hidden; background:var(--white); box-shadow:0 0 0 2px var(--gold); margin-bottom:20px; }
   .crest img{ width:100%; height:100%; object-fit:cover; display:block; }
   .login-brand h1{ font-size:25px; line-height:1.28; margin-bottom:6px; }
-  .login-brand .urdu-tag{ color:var(--gold-soft); font-size:20px; margin-bottom:16px; }
+  .login-brand .urdu-tag{ color:var(--gold-soft); font-size:12.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:16px; }
   .login-brand p{ color:rgba(255,255,255,0.75); font-size:13.5px; line-height:1.6; max-width:320px; }
   .login-brand .foot{ font-size:12px; color:rgba(255,255,255,0.55); letter-spacing:0.04em; text-transform:uppercase; }
   .role-toggle{ display:flex; gap:8px; margin-top:22px; }
@@ -77,7 +77,11 @@
   /* ===== APP SHELL ===== */
   #appScreen{ display:none; min-height:100vh; }
   .shell{ display:flex; min-height:100vh; }
-  .sidebar{ width:250px; background:var(--green-deep); color:var(--white); display:flex; flex-direction:column; padding:26px 18px; flex-shrink:0; }
+  .sidebar{ width:250px; background:var(--green-deep); color:var(--white); display:flex; flex-direction:column; padding:26px 18px; flex-shrink:0;
+    position:fixed; top:0; left:0; height:100vh; z-index:45; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
+  .sidebar.open{ transform:translateX(0); box-shadow:0 0 40px rgba(0,0,0,0.35); }
+  .sidebar-backdrop{ display:none; position:fixed; inset:0; background:rgba(15,15,30,0.45); z-index:40; }
+  .sidebar-backdrop.show{ display:block; }
   .sidebar .brand{ display:flex; align-items:center; gap:10px; padding:0 8px 20px 8px; border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:16px; }
   .sidebar .brand .mini-crest{ width:36px;height:36px;border-radius:50%; overflow:hidden; background:var(--white); box-shadow:0 0 0 1.5px var(--gold); flex-shrink:0; }
   .sidebar .brand .mini-crest img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -93,14 +97,24 @@
     font-weight:700; cursor:pointer; background:none; border:none; width:100%; text-align:left; font-family:inherit; }
   .logout-btn:hover{ background:rgba(179,67,43,0.25); }
 
-  .main{ flex:1; padding:32px 40px; overflow-y:auto; max-width:100%; }
+  .main{ flex:1; padding:32px 40px; overflow-y:auto; max-width:100%; width:100%; }
   .topbar{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:26px; flex-wrap:wrap; gap:16px; }
   .topbar h2{ font-family:'Playfair Display', serif; font-size:24px; color:var(--green-deep); }
   .topbar .path{ font-size:12.5px; color:var(--ink-soft); margin-top:4px; }
-  .student-chip{ display:flex; align-items:center; gap:10px; background:var(--white); border:1px solid var(--line); padding:7px 14px 7px 7px; border-radius:30px; }
+  .hamburger-btn{ width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:var(--white);
+    color:var(--green-deep); font-size:18px; cursor:pointer; flex-shrink:0; }
+  .hamburger-btn:hover{ background:var(--green-soft); }
+  .student-chip{ display:flex; align-items:center; gap:10px; background:var(--white); border:1px solid var(--line); padding:7px 12px 7px 7px; border-radius:30px; cursor:pointer; }
   .student-chip .avatar{ width:32px;height:32px;border-radius:50%; background:var(--green-soft); color:var(--green-deep);
-    display:flex;align-items:center;justify-content:center; font-weight:700; font-size:12px; font-family:'Playfair Display',serif; flex-shrink:0; }
+    display:flex;align-items:center;justify-content:center; font-weight:700; font-size:12px; font-family:'Playfair Display',serif; flex-shrink:0; overflow:hidden; }
   .student-chip .info{ line-height:1.25; } .student-chip .info .n{ font-size:12.5px; font-weight:700; } .student-chip .info .c{ font-size:11px; color:var(--ink-soft); }
+  .student-chip .dots-btn{ font-size:16px; color:var(--ink-soft); font-weight:800; padding-left:2px; }
+  .user-menu{ display:none; position:absolute; top:calc(100% + 8px); right:0; background:var(--white); border:1px solid var(--line);
+    border-radius:12px; box-shadow:0 12px 30px -10px rgba(34,36,92,0.25); min-width:190px; z-index:46; overflow:hidden; }
+  .user-menu.show{ display:block; }
+  .user-menu button{ display:block; width:100%; text-align:left; padding:12px 16px; background:none; border:none; font-size:13.5px;
+    font-weight:600; color:var(--ink); cursor:pointer; font-family:inherit; }
+  .user-menu button:hover{ background:var(--green-soft); }
 
   .grid{ display:grid; gap:16px; } .cards-3{ grid-template-columns:repeat(3, 1fr); } .cards-2{ grid-template-columns:1.3fr 1fr; }
   @media(max-width:900px){ .cards-3{grid-template-columns:1fr 1fr;} .cards-2{grid-template-columns:1fr;} }
@@ -170,12 +184,12 @@
 
   @media(max-width:760px){
     .login-card{ grid-template-columns:1fr; } .login-brand{ padding:30px 26px; }
-    .shell{ flex-direction:column; }
-    .sidebar{ width:100%; flex-direction:row; align-items:center; overflow-x:auto; padding:12px; }
-    .sidebar .brand{ display:none; } .nav-item{ flex-shrink:0; margin-right:6px; margin-bottom:0; }
-    .sidebar-foot{ margin-top:0; padding-top:0; border-top:none; }
+    .sidebar{ width:82%; max-width:300px; flex-direction:column; }
+    .sidebar .brand{ display:flex; }
+    .nav-item{ flex-shrink:initial; margin-right:0; margin-bottom:4px; }
     .main{ padding:20px 16px; }
     .subj-row{ grid-template-columns:1fr 1fr; }
+    .student-chip .info{ display:none; }
   }
 
   /* ===== Printable form (Admission / Fee Book) ===== */
@@ -220,7 +234,7 @@
 
 <div id="loadingScreen">
   <div class="spin"></div>
-  <p>Portal load ho raha hai…</p>
+  <p>Loading portal…</p>
 </div>
 
 <!-- ============ LOGIN ============ -->
@@ -230,9 +244,9 @@
       <div>
         <div class="crest"><img src="logo.png" alt="The Arqam Schools logo"></div>
         <h1 class="display">The Arqam School<br>Tasawar Hussain Campus</h1>
-        <div class="urdu-tag urdu">طلبہ پورٹل</div>
-        <p>Attendance, results, fee details aur class updates — sab aik hi jagah. Data save hota hai, real portal ki tarah.</p>
-        <div class="role-toggle">
+        <div class="urdu-tag">STUDENT PORTAL</div>
+        <p>Attendance, results, fee details, and class updates — all in one place. Your data is saved securely, just like a real school portal.</p>
+        <div class="role-toggle" id="roleToggleWrap" style="display:none;">
           <button id="roleStudentBtn" class="active" onclick="setRole('student')">Student</button>
           <button id="roleAdminBtn" onclick="setRole('admin')">Admin / School</button>
         </div>
@@ -242,25 +256,25 @@
     <div class="login-form-wrap">
       <div id="studentLoginForm">
         <h2>Student Login</h2>
-        <div class="sub">Apni Student ID aur password dal kar login karein</div>
+        <div class="sub">Enter your Student ID and password to log in</div>
         <div class="field"><label>Student ID</label><input type="text" id="loginId" placeholder="e.g. ARQ-1001" autocomplete="off"></div>
         <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
         <button class="login-btn" onclick="attemptStudentLogin()">Login</button>
-        <div class="login-error" id="loginError">Galat Student ID ya password. Dobara koshish karein.</div>
+        <div class="login-error" id="loginError">Incorrect Student ID or password. Please try again.</div>
         <div class="demo-box">
           <div class="t">Secured Login</div>
-          <div style="font-size:12.5px; color:var(--ink); line-height:1.5;">Har student ka apna Firebase-secured account hai. Apni Student ID aur password school office / admin se hasil karein.</div>
+          <div style="font-size:12.5px; color:var(--ink); line-height:1.5;">Every student has their own Firebase-secured account. Get your Student ID and password from the school office / admin.</div>
         </div>
       </div>
       <div id="adminLoginForm" style="display:none;">
         <h2>Admin Login</h2>
-        <div class="sub">School staff yahan se students, results, fee aur announcements manage karte hain</div>
+        <div class="sub">School staff manage students, results, fee, and announcements from here</div>
         <div class="field"><label>Admin Email</label><input type="email" id="adminUser" placeholder="admin@arqam.school"></div>
         <div class="field"><label>Admin Password</label><input type="password" id="adminPass" placeholder="••••••••"></div>
         <button class="login-btn" onclick="attemptAdminLogin()">Login as Admin</button>
-        <div class="login-error" id="adminLoginError">Galat email ya password.</div>
+        <div class="login-error" id="adminLoginError">Incorrect email or password.</div>
         <div class="demo-box"><div class="t">Secured Access</div>
-          <div style="font-size:12.5px; color:var(--ink); line-height:1.5;">Admin login ab Firebase Authentication se secure hai. Sirf wahi email/password kaam karega jo aap ne Firebase Console → Authentication → Users mein banaya hai.</div>
+          <div style="font-size:12.5px; color:var(--ink); line-height:1.5;">Admin login is secured with Firebase Authentication. Only the email/password created in Firebase Console → Authentication → Users will work.</div>
         </div>
       </div>
     </div>
@@ -270,7 +284,8 @@
 <!-- ============ APP ============ -->
 <div id="appScreen">
   <div class="shell">
-    <div class="sidebar">
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
+    <div class="sidebar" id="sidebarEl">
       <div class="brand">
         <div class="mini-crest"><img src="logo.png" alt="The Arqam Schools logo"></div>
         <div class="name">The Arqam School<span id="sidebarSub">Tasawar Hussain Campus</span></div>
@@ -282,10 +297,19 @@
     </div>
     <div class="main">
       <div class="topbar">
-        <div><h2 id="pageTitle">Overview</h2><div class="path" id="pagePath">Dashboard / Overview</div></div>
-        <div class="student-chip" id="userChip">
-          <div class="avatar" id="chipAvatar">--</div>
-          <div class="info"><div class="n" id="chipName">—</div><div class="c" id="chipClass">—</div></div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+          <div><h2 id="pageTitle">Overview</h2><div class="path" id="pagePath">Dashboard / Overview</div></div>
+        </div>
+        <div style="position:relative;">
+          <div class="student-chip" id="userChip" onclick="toggleUserMenu()">
+            <div class="avatar" id="chipAvatar">--</div>
+            <div class="info"><div class="n" id="chipName">—</div><div class="c" id="chipClass">—</div></div>
+            <span class="dots-btn">⋮</span>
+          </div>
+          <div class="user-menu" id="userMenu">
+            <button onclick="openFullProfileFromMenu()">🪪 Poori Information</button>
+          </div>
         </div>
       </div>
       <div id="tabContent"></div>
@@ -342,7 +366,8 @@ async function createStudentAuthAccount(studentId, password){
 /* ================= CONFIG ================= */
 let currentRole = null;       // 'student' | 'admin'
 let currentStudentId = null;
-let DB = { students: {}, announcements: [], quizpapers: [], classes: [], teachers: [] };
+let DB = { students: {}, announcements: [], quizpapers: [], classes: [], teachers: [], diary: [],
+  myComplaints: [], allComplaints: {}, myQuestions: [], allQuestions: {}, myNotices: [], allNotices: {} };
 
 /* ================= STORAGE HELPERS (Firebase Firestore — shared cloud database) ================= */
 async function storageGet(key){
@@ -421,14 +446,18 @@ function seedDefaults(){
     { id: "t3", name: "Ms. Ayesha Farooq", subject: "Computer Science", classAssigned: "10th Grade — Section A", contact: "0300-3456789" },
   ];
   DB.announcements = [
-    { id: "a1", tag: "Exam", date: "18 Aug 2026", title: "Mid-Term Exams Schedule Announced", body: "Mid-term exams 25 August se shuru ho rahy hain. Datesheet notice board aur class group per share ki ja chuki hai." },
-    { id: "a2", tag: "Event", date: "14 Aug 2026", title: "Independence Day Assembly", body: "14 August ki khusoosi assembly subha 8:30 baje hogi. Tamam students uniform mein waqt per pohnchain." },
-    { id: "a3", tag: "Fee", date: "01 Aug 2026", title: "August Fee Due Date", body: "August month ki fee jama karwane ki last date 10 August hai. Late fee 200 rupees per din lagegi." },
+    { id: "a1", tag: "Exam", date: "18 Aug 2026", title: "Mid-Term Exams Schedule Announced", body: "Mid-term exams begin on 25 August. The datesheet has been shared on the notice board and class group." },
+    { id: "a2", tag: "Event", date: "14 Aug 2026", title: "Independence Day Assembly", body: "The special 14 August assembly will be held at 8:30 AM. All students must arrive on time in uniform." },
+    { id: "a3", tag: "Fee", date: "01 Aug 2026", title: "August Fee Due Date", body: "The last date to submit August fee is 10 August. A late fee of Rs. 200 per day will apply after that." },
   ];
   DB.quizpapers = [
     { id: "q1", type: "Quiz", title: "Computer Science — Chapter 3 Quiz", subtitle: "Boolean Logic & Algorithms · 20 marks · Due 15 Aug", ic: "Q" },
     { id: "q2", type: "Paper", title: "Mathematics — Mid-Term Sample Paper", subtitle: "Full syllabus · 100 marks · Practice paper", ic: "P" },
     { id: "q3", type: "Paper", title: "Physics — Past Paper 2025", subtitle: "Annual exam · 100 marks", ic: "P" },
+  ];
+  DB.diary = [
+    { id: "d1", className: "All Classes", date: "24 Aug 2026", subject: "General", homework: false, notes: "Tomorrow's school timetable will change slightly — the first period will start at 8:15 AM." },
+    { id: "d2", className: "9th Grade — Section A", date: "24 Aug 2026", subject: "Mathematics", homework: true, notes: "Complete Exercise 4.3, Q1 to Q10." },
   ];
 }
 
@@ -444,6 +473,7 @@ async function ensureSeeded(){
     await storageSet('arqam:quizpapers', DB.quizpapers);
     await storageSet('arqam:classes', DB.classes);
     await storageSet('arqam:teachers', DB.teachers);
+    await storageSet('arqam:diary', DB.diary);
     await storageSet('arqam:students-index', Object.keys(DB.students));
   }
 }
@@ -452,6 +482,7 @@ async function loadSharedData(){
   DB.quizpapers = (await storageGet('arqam:quizpapers')) || [];
   DB.classes = (await storageGet('arqam:classes')) || [];
   DB.teachers = (await storageGet('arqam:teachers')) || [];
+  DB.diary = (await storageGet('arqam:diary')) || [];
 }
 async function loadAllStudentsForAdmin(){
   const idx = (await storageGet('arqam:students-index')) || [];
@@ -461,9 +492,47 @@ async function loadAllStudentsForAdmin(){
     if(rec) DB.students[id] = rec;
   }
 }
+async function loadAllComplaintsForAdmin(){
+  const idx = (await storageGet('arqam:students-index')) || [];
+  DB.allComplaints = {};
+  for(const id of idx){
+    const list = await storageGet('arqam:complaints:' + id);
+    if(list && list.length) DB.allComplaints[id] = list;
+  }
+}
+async function loadMyComplaints(id){
+  DB.myComplaints = (await storageGet('arqam:complaints:' + id)) || [];
+}
+async function loadAllQuestionsForAdmin(){
+  const idx = (await storageGet('arqam:students-index')) || [];
+  DB.allQuestions = {};
+  for(const id of idx){
+    const list = await storageGet('arqam:questions:' + id);
+    if(list && list.length) DB.allQuestions[id] = list;
+  }
+}
+async function loadMyQuestions(id){
+  DB.myQuestions = (await storageGet('arqam:questions:' + id)) || [];
+}
+async function loadAllNoticesForAdmin(){
+  const idx = (await storageGet('arqam:students-index')) || [];
+  DB.allNotices = {};
+  for(const id of idx){
+    const list = await storageGet('arqam:notices:' + id);
+    if(list && list.length) DB.allNotices[id] = list;
+  }
+}
+async function loadMyNotices(id){
+  DB.myNotices = (await storageGet('arqam:notices:' + id)) || [];
+}
 function showLoginScreen(){
   document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
+  // Admin login is hidden from students by default. Visiting the link with #admin
+  // at the end reveals the Student/Admin toggle so staff can access their login.
+  if(location.hash === '#admin'){
+    document.getElementById('roleToggleWrap').style.display = 'flex';
+  }
 }
 
 async function saveAllStudents(){
@@ -484,6 +553,15 @@ async function saveAnnouncements(){ await storageSet('arqam:announcements', DB.a
 async function saveQuizPapers(){ await storageSet('arqam:quizpapers', DB.quizpapers); }
 async function saveClasses(){ await storageSet('arqam:classes', DB.classes); }
 async function saveTeachers(){ await storageSet('arqam:teachers', DB.teachers); }
+async function saveDiary(){ await storageSet('arqam:diary', DB.diary); }
+/* Student writes directly to their own complaints/questions doc — allowed by Firestore rules since it matches their own ID */
+async function saveMyComplaints(){ await storageSet('arqam:complaints:' + currentStudentId, DB.myComplaints); }
+async function saveComplaintsFor(studentId, list){ await storageSet('arqam:complaints:' + studentId, list); }
+async function saveMyQuestions(){ await storageSet('arqam:questions:' + currentStudentId, DB.myQuestions); }
+async function saveQuestionsFor(studentId, list){ await storageSet('arqam:questions:' + studentId, list); }
+/* Notices are admin/teacher → parent only; students never write these */
+async function saveNoticesFor(studentId, list){ await storageSet('arqam:notices:' + studentId, list); }
+
 
 /* ================= AUTH ================= */
 function setRole(role){
@@ -499,23 +577,26 @@ async function attemptStudentLogin(){
   const pass = document.getElementById('loginPass').value;
   const errEl = document.getElementById('loginError');
   const btn = document.querySelector('#studentLoginForm .login-btn');
-  if(!id || !pass){ errEl.textContent = 'Student ID aur password dono zaroori hain.'; errEl.style.display = 'block'; return; }
+  if(!id || !pass){ errEl.textContent = 'Both Student ID and password are required.'; errEl.style.display = 'block'; return; }
   btn.disabled = true; btn.textContent = 'Signing in…';
   try{
     await signInWithEmailAndPassword(auth, studentIdToEmail(id), pass);
     const rec = await storageGet('arqam:student:' + id);
     if(!rec){
-      errEl.textContent = 'Login theek hai laikin record nahi mila. Admin se rabta karein.';
+      errEl.textContent = 'Login succeeded but no record was found. Please contact the admin.';
       errEl.style.display = 'block';
       await signOut(auth);
       return;
     }
     DB.students[id] = rec;
     await loadSharedData();
+    await loadMyComplaints(id);
+    await loadMyQuestions(id);
+    await loadMyNotices(id);
     currentStudentId = id; currentRole = 'student'; errEl.style.display = 'none';
     enterApp();
   } catch(e){
-    errEl.textContent = 'Galat Student ID ya password. Dobara koshish karein.';
+    errEl.textContent = 'Incorrect Student ID or password. Please try again.';
     errEl.style.display = 'block';
   } finally {
     btn.disabled = false; btn.textContent = 'Login';
@@ -532,6 +613,9 @@ async function attemptAdminLogin(){
     await ensureSeeded();
     await loadAllStudentsForAdmin();
     await loadSharedData();
+    await loadAllComplaintsForAdmin();
+    await loadAllQuestionsForAdmin();
+    await loadAllNoticesForAdmin();
     currentRole = 'admin'; errEl.style.display = 'none';
     enterApp();
   } catch(e){
@@ -554,10 +638,11 @@ function enterApp(){
     document.getElementById('chipName').textContent = s.name;
     document.getElementById('chipClass').textContent = s.className + ' · ' + currentStudentId;
     document.getElementById('navItems').innerHTML = navHTML([
-      ['overview','⌂','Overview'],['profile','🪪','My Profile'],['attendance','◔','Attendance'],['results','▤','Results'],
-      ['courses','📘','My Courses'],['activities','🏅','Activities'],
+      ['overview','⌂','Overview'],['attendance','◔','Attendance'],['results','▤','Results'],
+      ['courses','📘','My Courses'],['activities','🏅','Activities'],['diary','📔','Daily Diary'],
       ['announcements','🔔','Announcements'],['quiz','✎','Quiz & Papers'],['fee','₨','Fee Book'],
-      ['password','🔒','Change Password'],
+      ['askteacher','❓','Ask Teacher'],['notices','📨','School Notices'],
+      ['complaints','📢','Complaints'],['password','🔒','Change Password'],
     ]);
     switchTab('overview');
   } else {
@@ -566,7 +651,9 @@ function enterApp(){
     document.getElementById('chipClass').textContent = 'Administrator';
     document.getElementById('navItems').innerHTML = navHTML([
       ['a-overview','⌂','Overview'],['a-students','🎓','Students / Registration'],['a-classes','🏫','Classes'],['a-teachers','👩‍🏫','Teachers'],
-      ['a-announcements','🔔','Announcements'],['a-quiz','✎','Quiz & Papers'],['a-admission','📝','Admission Form'],
+      ['a-diary','📔','Daily Diary'],['a-announcements','🔔','Announcements'],['a-quiz','✎','Quiz & Papers'],
+      ['a-questions','❓','Ask Teacher Qs'],['a-notices','📨','Send Notice'],
+      ['a-complaints','📢','Complaints'],['a-admission','📝','Admission Form'],
     ]);
     switchTab('a-overview');
   }
@@ -594,16 +681,48 @@ function switchTab(tab){
     results:['Results','Dashboard / Results'], announcements:['Announcements','Dashboard / Announcements'],
     quiz:['Quiz & Papers','Dashboard / Quiz & Papers'], fee:['Fee Book','Dashboard / Fee Book'],
     courses:['My Courses','Dashboard / My Courses'], activities:['Activities','Dashboard / Activities'],
+    diary:['Daily Diary','Dashboard / Daily Diary'], complaints:['Complaints','Dashboard / Complaints'],
+    askteacher:['Ask Teacher','Dashboard / Ask Teacher'], notices:['School Notices','Dashboard / School Notices'],
     password:['Change Password','Dashboard / Change Password'],
     'a-overview':['Admin Overview','Admin / Overview'], 'a-students':['Students / Registration','Admin / Students'],
     'a-classes':['Classes','Admin / Classes'], 'a-teachers':['Teachers','Admin / Teachers'],
+    'a-diary':['Daily Diary','Admin / Daily Diary'], 'a-complaints':['Complaints','Admin / Complaints'],
+    'a-questions':['Ask Teacher — Questions','Admin / Ask Teacher'], 'a-notices':['Send Notice to Parent','Admin / Send Notice'],
     'a-announcements':['Manage Announcements','Admin / Announcements'], 'a-quiz':['Manage Quiz & Papers','Admin / Quiz & Papers'],
     'a-admission':['Admission Form','Admin / Admission Form'],
   };
   document.getElementById('pageTitle').textContent = titles[tab][0];
   document.getElementById('pagePath').textContent = titles[tab][1];
   document.getElementById('tabContent').innerHTML = renderTab(tab);
+  toggleSidebar(false);
+  toggleUserMenu(false);
 }
+
+/* ================= DRAWER / USER MENU ================= */
+function toggleSidebar(force){
+  const el = document.getElementById('sidebarEl');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const show = typeof force === 'boolean' ? force : !el.classList.contains('open');
+  el.classList.toggle('open', show);
+  backdrop.classList.toggle('show', show);
+}
+function toggleUserMenu(force){
+  const el = document.getElementById('userMenu');
+  if(!el) return;
+  const show = typeof force === 'boolean' ? force : !el.classList.contains('show');
+  el.classList.toggle('show', show);
+}
+function openFullProfileFromMenu(){
+  toggleUserMenu(false);
+  if(currentRole === 'student') switchTab('profile');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('userMenu');
+  const chip = document.getElementById('userChip');
+  if(menu && menu.classList.contains('show') && !menu.contains(e.target) && !chip.contains(e.target)){
+    toggleUserMenu(false);
+  }
+});
 
 /* ================= RESULT CALC ================= */
 function computeResult(s){
@@ -648,10 +767,10 @@ function renderTab(tab){
       </div>
       <div class="grid cards-2" style="margin-top:16px;">
         <div class="card"><h3>Latest Announcements</h3>
-          ${DB.announcements.slice(0,2).map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.tag}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.body}</p></div>`).join('') || '<p class="stat-line">Koi announcement nahi.</p>'}
+          ${DB.announcements.slice(0,2).map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.tag}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.body}</p></div>`).join('') || '<p class="stat-line">No announcements yet.</p>'}
         </div>
         <div class="card"><h3>Upcoming Quiz &amp; Papers</h3>
-          ${DB.quizpapers.slice(0,3).map(q => `<div class="item-row" style="margin-bottom:8px;"><div class="left"><div class="file-ic">${q.ic}</div><div><div class="t">${q.title}</div><div class="s">${q.subtitle}</div></div></div></div>`).join('') || '<p class="stat-line">Koi quiz/paper nahi.</p>'}
+          ${DB.quizpapers.slice(0,3).map(q => `<div class="item-row" style="margin-bottom:8px;"><div class="left"><div class="file-ic">${q.ic}</div><div><div class="t">${q.title}</div><div class="s">${q.subtitle}</div></div></div></div>`).join('') || '<p class="stat-line">No quizzes/papers yet.</p>'}
         </div>
       </div>`;
   }
@@ -696,7 +815,7 @@ function renderTab(tab){
         <div class="ring-wrap"><div class="ring" style="--pct:${pct}"><div class="hole"><div class="num">${pct}%</div><div class="lbl">Present</div></div></div>
         <div><div class="stat-line"><b>${s.attendance.present}</b> days present</div><div class="stat-line"><b>${s.attendance.total - s.attendance.present}</b> days absent</div><div class="stat-line"><b>${s.attendance.total}</b> total school days</div></div></div>
       </div>
-      <div class="card" style="margin-top:16px;"><h3>Policy</h3><p style="font-size:13px; color:var(--ink-soft); line-height:1.6;">75% se kam attendance per student ko exams mein baithne ki ijazat nahi hogi. Kisi bhi ghair hazri ki application class teacher ko jama karwayein.</p></div>`;
+      <div class="card" style="margin-top:16px;"><h3>Policy</h3><p style="font-size:13px; color:var(--ink-soft); line-height:1.6;">Students with attendance below 75% will not be allowed to sit in exams. Submit any absence application to the class teacher.</p></div>`;
   }
 
   if(tab === 'results'){
@@ -718,16 +837,16 @@ function renderTab(tab){
             ${res.rows.map(r => `<tr><td>${r.name}</td><td>${r.theory||0}</td><td>${r.practical||'—'}</td><td>${r.total} / ${r.max}</td><td><span class="grade ${r.pct<40?'low':''}">${r.grade}</span></td></tr>`).join('')}
           </tbody>
         </table>
-        <p style="font-size:11.5px; color:var(--ink-soft); margin-top:14px; line-height:1.5;">Yeh result portal ke record ke mutabiq hai aur sirf maloomati maqasid ke liye hai. Official certificate school office se hasil karein.</p>
+        <p style="font-size:11.5px; color:var(--ink-soft); margin-top:14px; line-height:1.5;">This result is based on the portal's records and is for informational purposes only. Obtain the official certificate from the school office.</p>
       </div>`;
   }
 
   if(tab === 'announcements'){
-    return `<div class="card"><h3>All Announcements</h3>${DB.announcements.map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.tag}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.body}</p></div>`).join('') || '<p class="stat-line">Koi announcement nahi.</p>'}</div>`;
+    return `<div class="card"><h3>All Announcements</h3>${DB.announcements.map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.tag}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.body}</p></div>`).join('') || '<p class="stat-line">No announcements yet.</p>'}</div>`;
   }
 
   if(tab === 'quiz'){
-    return `<div class="card"><h3>Quizzes &amp; Papers</h3>${DB.quizpapers.map(q => `<div class="item-row"><div class="left"><div class="file-ic">${q.ic}</div><div><div class="t">${q.title}</div><div class="s">${q.subtitle}</div></div></div><button class="btn" onclick="openInfoModal('${escAttr(q.title)}','${q.type} ki tafseel yahan dikhai jayegi. Asal file class teacher class group mein share karta hai.')">View</button></div>`).join('') || '<p class="stat-line">Koi quiz/paper nahi.</p>'}</div>`;
+    return `<div class="card"><h3>Quizzes &amp; Papers</h3>${DB.quizpapers.map(q => `<div class="item-row"><div class="left"><div class="file-ic">${q.ic}</div><div><div class="t">${q.title}</div><div class="s">${q.subtitle}</div></div></div><button class="btn" onclick="openInfoModal('${escAttr(q.title)}','Details of this ${q.type.toLowerCase()} will be shown here. The actual file is shared by the class teacher in the class group.')">View</button></div>`).join('') || '<p class="stat-line">No quizzes/papers yet.</p>'}</div>`;
   }
 
   if(tab === 'fee'){
@@ -752,31 +871,169 @@ function renderTab(tab){
     });
     return `<div class="card"><h3>Enrolled Courses — ${s.className}</h3>
       <table><thead><tr><th>Subject</th><th>Subject Teacher</th><th>Contact</th></tr></thead>
-      <tbody>${courses.map(c => `<tr><td>${c.subject}</td><td>${c.teacher}</td><td>${c.contact}</td></tr>`).join('') || '<tr><td colspan="3">Koi subject record nahi.</td></tr>'}</tbody></table>
+      <tbody>${courses.map(c => `<tr><td>${c.subject}</td><td>${c.teacher}</td><td>${c.contact}</td></tr>`).join('') || '<tr><td colspan="3">No subject records yet.</td></tr>'}</tbody></table>
     </div>`;
   }
 
   if(tab === 'activities'){
     const acts = s.activities || [];
     return `<div class="card"><h3>Co-curricular & Academic Activities</h3>
-      ${acts.map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.category}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.remarks||''}</p></div>`).join('') || '<p class="stat-line">Abhi tak koi activity record nahi hai.</p>'}
+      ${acts.map(a => `<div class="announcement"><div class="meta"><span class="tag">${a.category}</span><span class="date">${a.date}</span></div><h4>${a.title}</h4><p>${a.remarks||''}</p></div>`).join('') || '<p class="stat-line">No activity records yet.</p>'}
     </div>`;
+  }
+
+  if(tab === 'diary'){
+    const myEntries = DB.diary.filter(d => d.className === 'All Classes' || d.className === s.className)
+      .sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    return `<div class="card"><h3>Daily Diary — ${s.className}</h3>
+      ${myEntries.map(d => `<div class="announcement"><div class="meta"><span class="tag">${escAttr(d.subject)}</span><span class="date">${d.date}</span></div><h4>${d.className==='All Classes' ? '(All Classes)' : ''} ${d.homework ? 'Homework' : 'Class Note'}</h4><p>${d.notes||''}</p></div>`).join('') || '<p class="stat-line">No diary entries yet.</p>'}
+    </div>`;
+  }
+
+  if(tab === 'complaints'){
+    const list = (DB.myComplaints||[]).slice().reverse();
+    return `
+      <div class="card" style="max-width:520px;">
+        <h3>Submit a Complaint / Feedback</h3>
+        <div class="field"><label>Subject</label><input id="cp_subject" placeholder="e.g. Bus timing issue"></div>
+        <div class="field"><label>Details</label><textarea id="cp_message" rows="4" placeholder="Describe your complaint in detail..."></textarea></div>
+        <button class="login-btn" style="margin-top:4px;" onclick="submitComplaint()">Submit</button>
+        <div class="login-error" id="cpError"></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3>My Previous Complaints</h3>
+        ${list.map(c => `
+          <div class="announcement">
+            <div class="meta"><span class="tag" style="background:${c.status==='Resolved'?'var(--green-mid)':'var(--red)'};">${c.status}</span><span class="date">${c.date}</span></div>
+            <h4>${escAttr(c.subject)}</h4>
+            <p>${c.message}</p>
+            ${c.reply ? `<p style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); color:var(--green-deep);"><b>School Reply:</b> ${c.reply}</p>` : ''}
+          </div>`).join('') || '<p class="stat-line">No complaints submitted yet.</p>'}
+      </div>`;
+  }
+
+  if(tab === 'askteacher'){
+    const mySubjects = (s.subjects||[]).map(sub => sub.name);
+    const options = mySubjects.map(sub => `<option value="${escAttr(sub)}">${sub}</option>`).join('');
+    const list = (DB.myQuestions||[]).slice().reverse();
+    return `
+      <div class="card" style="max-width:520px;">
+        <h3>Ask Your Subject Teacher</h3>
+        <div class="field"><label>Subject</label><select id="aq_subject">${options || '<option value="">No subjects available</option>'}</select></div>
+        <div class="field"><label>Your Question</label><textarea id="aq_message" rows="4" placeholder="Write your question in detail (at least one full sentence)..."></textarea></div>
+        <button class="login-btn" style="margin-top:4px;" onclick="submitQuestion()">Send to Teacher</button>
+        <div class="login-error" id="aqError"></div>
+        <div class="stat-line" style="margin-top:8px;">⚠️ Only send questions related to the subject — irrelevant or chit-chat messages are automatically blocked.</div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3>My Questions</h3>
+        ${list.map(q => `
+          <div class="announcement">
+            <div class="meta"><span class="tag" style="background:${q.status==='Answered'?'var(--green-mid)':'var(--red)'};">${q.status}</span><span class="date">${q.date}</span></div>
+            <h4>${escAttr(q.subject)}</h4>
+            <p>${q.message}</p>
+            ${q.reply ? `<p style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); color:var(--green-deep);"><b>Teacher's Reply:</b> ${q.reply}</p>` : ''}
+          </div>`).join('') || '<p class="stat-line">No questions sent yet.</p>'}
+      </div>`;
+  }
+
+  if(tab === 'notices'){
+    const list = (DB.myNotices||[]).slice().reverse();
+    return `<div class="card"><h3>School / Teacher Notices</h3>
+      ${list.map(n => `
+        <div class="announcement">
+          <div class="meta"><span class="tag">${escAttr(n.from||'School')}</span><span class="date">${n.date}</span></div>
+          <h4>${escAttr(n.subject)}</h4>
+          <p>${n.message}</p>
+        </div>`).join('') || '<p class="stat-line">No notices sent yet.</p>'}
+      </div>`;
   }
 
   if(tab === 'password'){
     return `<div class="card" style="max-width:460px;">
       <h3>Change Your Password</h3>
       <div class="field"><label>Current Password</label><input type="password" id="pw_current" placeholder="Current password"></div>
-      <div class="field"><label>New Password</label><input type="password" id="pw_new" placeholder="Kam az kam 6 characters"></div>
-      <div class="field"><label>Confirm New Password</label><input type="password" id="pw_confirm" placeholder="Dobara likhein"></div>
+      <div class="field"><label>New Password</label><input type="password" id="pw_new" placeholder="At least 6 characters"></div>
+      <div class="field"><label>Confirm New Password</label><input type="password" id="pw_confirm" placeholder="Re-enter new password"></div>
       <button class="login-btn" style="margin-top:6px;" onclick="changeMyPassword()">Update Password</button>
       <div class="login-error" id="pwError"></div>
-      <div class="stat-line" style="margin-top:10px; color:var(--green-mid); display:none;" id="pwSuccess">Password successfully update ho gaya.</div>
+      <div class="stat-line" style="margin-top:10px; color:var(--green-mid); display:none;" id="pwSuccess">Password updated successfully.</div>
     </div>`;
   }
 }
 
 function escAttr(str){ return String(str).replace(/'/g, "\\'"); }
+
+async function submitComplaint(){
+  const subject = document.getElementById('cp_subject').value.trim();
+  const message = document.getElementById('cp_message').value.trim();
+  const errEl = document.getElementById('cpError');
+  errEl.style.display = 'none';
+  if(!subject || !message){ errEl.textContent = 'Please fill in both subject and details.'; errEl.style.display = 'block'; return; }
+  DB.myComplaints = DB.myComplaints || [];
+  DB.myComplaints.push({ id: 'c'+Date.now(), date: new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}), subject, message, status: 'Pending', reply: '' });
+  try{
+    await saveMyComplaints();
+    document.getElementById('cp_subject').value = '';
+    document.getElementById('cp_message').value = '';
+    showToast('Complaint submitted');
+    switchTab('complaints');
+  } catch(e){
+    errEl.textContent = 'Could not submit, please try again.';
+    errEl.style.display = 'block';
+  }
+}
+
+/* ================= ASK TEACHER — relevance filtering ================= */
+// Best-effort filter, not a perfect AI check: blocks pure greetings/chit-chat and
+// (when the subject is recognised) requires at least one subject-related keyword.
+const SUBJECT_KEYWORDS = {
+  math: ['solve','equation','formula','calculate','number','algebra','geometry','graph','sum','fraction','theorem','value of x'],
+  physics: ['force','energy','velocity','motion','circuit','law','experiment','mass','gravity','formula'],
+  chemistry: ['reaction','element','compound','formula','acid','base','molecule','equation','periodic'],
+  biology: ['cell','organism','plant','animal','human body','system','diagram','process','photosynthesis'],
+  computer: ['code','program','algorithm','function','loop','variable','output','error','software','logic'],
+  english: ['grammar','essay','tense','word','sentence','paragraph','vocabulary','comprehension','poem'],
+  urdu: ['nazam','mazmoon','sabaq','jumla','tashreeh','grammar','ashaar'],
+  islamiyat: ['surah','hadith','ayat','namaz','deen','prophet','islam'],
+  'pakistan studies': ['history','constitution','geography','independence','movement','pakistan'],
+};
+const GREETING_ONLY = /^(hi+|hello+|hey+|salam|assalam(o|u)? ?alaikum|kya haal( hai)?|ka?[iy]se ho|k[ae]say ho|good morning|good evening|good night|bye+|ok(ay)?|thanks?|shukriya|lol+|haha+)[\s!.,?]*$/i;
+
+function checkQuestionRelevance(subject, message){
+  const words = message.trim().split(/\s+/).filter(Boolean);
+  if(words.length < 5) return { ok:false, reason:'Your question is too short — please write at least one full, detailed sentence.' };
+  if(GREETING_ONLY.test(message.trim())) return { ok:false, reason:'This looks like just a greeting/chit-chat. Please send only questions related to your studies.' };
+  const subjLower = subject.toLowerCase();
+  const matchKey = Object.keys(SUBJECT_KEYWORDS).find(k => subjLower.includes(k));
+  if(matchKey){
+    const msgLower = message.toLowerCase();
+    const hasKeyword = SUBJECT_KEYWORDS[matchKey].some(kw => msgLower.includes(kw));
+    if(!hasKeyword) return { ok:false, reason:`This question doesn't seem related to "${subject}". Please write a question connected to this subject's studies only.` };
+  }
+  return { ok:true };
+}
+async function submitQuestion(){
+  const subject = document.getElementById('aq_subject').value;
+  const message = document.getElementById('aq_message').value.trim();
+  const errEl = document.getElementById('aqError');
+  errEl.style.display = 'none';
+  if(!subject){ errEl.textContent = 'Please select a subject first.'; errEl.style.display = 'block'; return; }
+  if(!message){ errEl.textContent = 'Please write your question.'; errEl.style.display = 'block'; return; }
+  const check = checkQuestionRelevance(subject, message);
+  if(!check.ok){ errEl.textContent = check.reason; errEl.style.display = 'block'; return; }
+  DB.myQuestions = DB.myQuestions || [];
+  DB.myQuestions.push({ id: 'q'+Date.now(), date: new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}), subject, message, status: 'Pending', reply: '' });
+  try{
+    await saveMyQuestions();
+    document.getElementById('aq_message').value = '';
+    showToast('Question sent to teacher');
+    switchTab('askteacher');
+  } catch(e){
+    errEl.textContent = 'There was a problem sending it, please try again.';
+    errEl.style.display = 'block';
+  }
+}
 
 async function changeMyPassword(){
   const cur = document.getElementById('pw_current').value;
@@ -785,9 +1042,9 @@ async function changeMyPassword(){
   const errEl = document.getElementById('pwError');
   const okEl = document.getElementById('pwSuccess');
   errEl.style.display = 'none'; okEl.style.display = 'none';
-  if(!cur || !next || !confirm){ errEl.textContent = 'Sabhi fields bharain.'; errEl.style.display='block'; return; }
-  if(next.length < 6){ errEl.textContent = 'Naya password kam az kam 6 characters ka ho.'; errEl.style.display='block'; return; }
-  if(next !== confirm){ errEl.textContent = 'Naya password aur confirm password match nahi kartay.'; errEl.style.display='block'; return; }
+  if(!cur || !next || !confirm){ errEl.textContent = 'Please fill in all fields.'; errEl.style.display='block'; return; }
+  if(next.length < 6){ errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display='block'; return; }
+  if(next !== confirm){ errEl.textContent = 'New password and confirm password do not match.'; errEl.style.display='block'; return; }
   try{
     const user = auth.currentUser;
     const cred = EmailAuthProvider.credential(user.email, cur);
@@ -798,7 +1055,7 @@ async function changeMyPassword(){
     document.getElementById('pw_new').value = '';
     document.getElementById('pw_confirm').value = '';
   } catch(e){
-    errEl.textContent = 'Current password galat hai ya session expire ho gayi. Dobara login karke koshish karein.';
+    errEl.textContent = 'Current password is incorrect or your session expired. Please log in again and try.';
     errEl.style.display = 'block';
   }
 }
@@ -814,7 +1071,7 @@ function renderAdminTab(tab){
         <div class="card"><h3>Fee Dues Pending</h3><div style="font-family:'Playfair Display',serif; font-size:32px; color:var(--red); font-weight:800;">${dues}</div></div>
         <div class="card"><h3>Announcements Live</h3><div style="font-family:'Playfair Display',serif; font-size:32px; color:var(--green-deep); font-weight:800;">${DB.announcements.length}</div></div>
       </div>
-      <div class="card" style="margin-top:16px;"><h3>Data Notice</h3><p style="font-size:13px; color:var(--ink-soft); line-height:1.6;">Ye portal Firebase Authentication use karta hai — har student ka apna real login account hai. Sirf apna hi data padh sakta hai, aur data likhne (add/edit/delete) ki ijazat sirf aap (admin) ko hai. Naye student add karte waqt unka Firebase login automatically ban jata hai.</p></div>`;
+      <div class="card" style="margin-top:16px;"><h3>Data Notice</h3><p style="font-size:13px; color:var(--ink-soft); line-height:1.6;">This portal uses Firebase Authentication — every student has their own real login account. Each student can only read their own data, and only you (admin) can write (add/edit/delete) data. When a new student is added, their Firebase login is created automatically.</p></div>`;
   }
 
   if(tab === 'a-students'){
@@ -836,7 +1093,7 @@ function renderAdminTab(tab){
       <div class="card">
         <div class="card-head-row"><h3 style="margin:0;">All Students</h3><button class="btn gold" onclick="openEditStudent(null)">+ Add Student</button></div>
         <div class="admin-table-wrap"><table><thead><tr><th>Student ID</th><th>Name</th><th>Class</th><th>Fee</th><th>Actions</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="5">Koi student nahi. Add Student per click karein.</td></tr>'}</tbody></table></div>
+        <tbody>${rows || '<tr><td colspan="5">No students yet. Click Add Student.</td></tr>'}</tbody></table></div>
       </div>`;
   }
 
@@ -844,14 +1101,14 @@ function renderAdminTab(tab){
     const rows = DB.announcements.map(a => `
       <div class="item-row"><div class="left"><div class="file-ic">${a.tag[0]}</div><div><div class="t">${a.title}</div><div class="s">${a.tag} · ${a.date}</div></div></div>
       <button class="btn danger" onclick="deleteAnnouncement('${a.id}')">Delete</button></div>`).join('');
-    return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Announcements</h3><button class="btn gold" onclick="openAddAnnouncement()">+ Add</button></div>${rows || '<p class="stat-line">Koi announcement nahi.</p>'}</div>`;
+    return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Announcements</h3><button class="btn gold" onclick="openAddAnnouncement()">+ Add</button></div>${rows || '<p class="stat-line">No announcements yet.</p>'}</div>`;
   }
 
   if(tab === 'a-quiz'){
     const rows = DB.quizpapers.map(q => `
       <div class="item-row"><div class="left"><div class="file-ic">${q.ic}</div><div><div class="t">${q.title}</div><div class="s">${q.subtitle}</div></div></div>
       <button class="btn danger" onclick="deleteQuizPaper('${q.id}')">Delete</button></div>`).join('');
-    return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Quiz &amp; Papers</h3><button class="btn gold" onclick="openAddQuizPaper()">+ Add</button></div>${rows || '<p class="stat-line">Koi item nahi.</p>'}</div>`;
+    return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Quiz &amp; Papers</h3><button class="btn gold" onclick="openAddQuizPaper()">+ Add</button></div>${rows || '<p class="stat-line">No items yet.</p>'}</div>`;
   }
 
   if(tab === 'a-classes'){
@@ -860,7 +1117,7 @@ function renderAdminTab(tab){
       <td class="row-actions"><button class="btn" onclick="openEditClass('${c.id}')">Edit</button><button class="btn danger" onclick="deleteClass('${c.id}')">Delete</button></td></tr>`).join('');
     return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Classes</h3><button class="btn gold" onclick="openEditClass(null)">+ Add Class</button></div>
       <div class="admin-table-wrap"><table><thead><tr><th>Class / Section</th><th>Class Teacher</th><th>Actions</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="3">Koi class nahi.</td></tr>'}</tbody></table></div></div>`;
+      <tbody>${rows || '<tr><td colspan="3">No classes yet.</td></tr>'}</tbody></table></div></div>`;
   }
 
   if(tab === 'a-teachers'){
@@ -869,7 +1126,78 @@ function renderAdminTab(tab){
       <td class="row-actions"><button class="btn" onclick="openEditTeacher('${t.id}')">Edit</button><button class="btn danger" onclick="deleteTeacher('${t.id}')">Delete</button></td></tr>`).join('');
     return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Teachers</h3><button class="btn gold" onclick="openEditTeacher(null)">+ Add Teacher</button></div>
       <div class="admin-table-wrap"><table><thead><tr><th>Name</th><th>Subject</th><th>Class Assigned</th><th>Contact</th><th>Actions</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="5">Koi teacher nahi.</td></tr>'}</tbody></table></div></div>`;
+      <tbody>${rows || '<tr><td colspan="5">No teachers yet.</td></tr>'}</tbody></table></div></div>`;
+  }
+
+  if(tab === 'a-diary'){
+    const rows = DB.diary.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(d => `
+      <div class="item-row"><div class="left"><div class="file-ic">${d.homework?'H':'N'}</div><div><div class="t">${escAttr(d.subject)} — ${d.className}</div><div class="s">${d.date} ${d.homework?'· Homework':''}</div></div></div>
+      <button class="btn danger" onclick="deleteDiaryEntry('${d.id}')">Delete</button></div>`).join('');
+    return `<div class="card"><div class="card-head-row"><h3 style="margin:0;">Daily Diary Entries</h3><button class="btn gold" onclick="openAddDiary()">+ Add Entry</button></div>${rows || '<p class="stat-line">No diary entries yet.</p>'}</div>`;
+  }
+
+  if(tab === 'a-complaints'){
+    const entries = [];
+    Object.entries(DB.allComplaints||{}).forEach(([sid, list]) => {
+      (list||[]).forEach(c => entries.push({ ...c, studentId: sid, studentName: DB.students[sid] ? DB.students[sid].name : sid }));
+    });
+    entries.sort((a,b) => (b.id||'').localeCompare(a.id||''));
+    const rows = entries.map(c => `
+      <div class="announcement">
+        <div class="meta"><span class="tag" style="background:${c.status==='Resolved'?'var(--green-mid)':'var(--red)'};">${c.status}</span><span class="date">${c.date}</span></div>
+        <h4>${escAttr(c.subject)} <span style="font-weight:400; color:var(--ink-soft); font-size:12.5px;">— ${c.studentName} (${c.studentId})</span></h4>
+        <p>${c.message}</p>
+        ${c.reply ? `<p style="margin-top:6px; color:var(--green-deep);"><b>Your reply:</b> ${c.reply}</p>` : ''}
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn" onclick="openReplyComplaint('${c.studentId}','${c.id}')">Reply / Update</button>
+        </div>
+      </div>`).join('');
+    return `<div class="card"><h3>Student Complaints</h3>${rows || '<p class="stat-line">No complaints submitted yet.</p>'}</div>`;
+  }
+
+  if(tab === 'a-questions'){
+    const entries = [];
+    Object.entries(DB.allQuestions||{}).forEach(([sid, list]) => {
+      (list||[]).forEach(q => entries.push({ ...q, studentId: sid, studentName: DB.students[sid] ? DB.students[sid].name : sid }));
+    });
+    entries.sort((a,b) => (b.id||'').localeCompare(a.id||''));
+    const rows = entries.map(q => `
+      <div class="announcement">
+        <div class="meta"><span class="tag" style="background:${q.status==='Answered'?'var(--green-mid)':'var(--red)'};">${q.status}</span><span class="date">${q.date}</span></div>
+        <h4>${escAttr(q.subject)} <span style="font-weight:400; color:var(--ink-soft); font-size:12.5px;">— ${q.studentName} (${q.studentId})</span></h4>
+        <p>${q.message}</p>
+        ${q.reply ? `<p style="margin-top:6px; color:var(--green-deep);"><b>Your reply:</b> ${q.reply}</p>` : ''}
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn" onclick="openReplyQuestion('${q.studentId}','${q.id}')">Reply</button>
+        </div>
+      </div>`).join('');
+    return `<div class="card"><h3>Student Questions (for subject teachers)</h3>${rows || '<p class="stat-line">No questions received yet.</p>'}</div>`;
+  }
+
+  if(tab === 'a-notices'){
+    const studentOptions = Object.entries(DB.students).map(([id,s]) => `<option value="${id}">${s.name} (${id})</option>`).join('');
+    const entries = [];
+    Object.entries(DB.allNotices||{}).forEach(([sid, list]) => {
+      (list||[]).forEach(n => entries.push({ ...n, studentId: sid, studentName: DB.students[sid] ? DB.students[sid].name : sid }));
+    });
+    entries.sort((a,b) => (b.id||'').localeCompare(a.id||''));
+    const rows = entries.map(n => `
+      <div class="announcement">
+        <div class="meta"><span class="tag">${escAttr(n.from||'School')}</span><span class="date">${n.date}</span></div>
+        <h4>${escAttr(n.subject)} <span style="font-weight:400; color:var(--ink-soft); font-size:12.5px;">→ ${n.studentName} (${n.studentId})</span></h4>
+        <p>${n.message}</p>
+      </div>`).join('');
+    return `
+      <div class="card" style="max-width:520px;">
+        <h3>Send Notice / Complaint to Parent</h3>
+        <div class="field"><label>Student</label><select id="nt_student">${studentOptions || '<option value="">No students</option>'}</select></div>
+        <div class="field"><label>From</label><input id="nt_from" placeholder="e.g. Class Teacher — Ms. Sara" value="School Admin"></div>
+        <div class="field"><label>Subject</label><input id="nt_subject" placeholder="e.g. Uniform shortage"></div>
+        <div class="field"><label>Message</label><textarea id="nt_message" rows="4" placeholder="What you want to tell the parent..."></textarea></div>
+        <button class="login-btn" style="margin-top:4px;" onclick="sendNoticeToParent()">Send Notice</button>
+        <div class="login-error" id="ntError"></div>
+      </div>
+      <div class="card" style="margin-top:16px;"><h3>Sent Notices</h3>${rows || '<p class="stat-line">No notices sent yet.</p>'}</div>`;
   }
 
   if(tab === 'a-admission'){
@@ -899,11 +1227,11 @@ function renderAdminTab(tab){
           <div class="pf-field"><label>Date</label><div class="line"></div></div>
           <div class="pf-field"><label>Parent / Guardian Signature</label><div class="line"></div></div>
         </div>
-        <div class="pf-note">Form jama karwatay waqt B-Form/CNIC copy aur pichli marksheet (agar ho) sath layen. Admission office se rabta karein school hours mein.</div>
+        <div class="pf-note">Please bring a copy of the B-Form/CNIC and previous marksheet (if any) when submitting this form. Contact the admission office during school hours.</div>
       </div>
       <div style="max-width:640px;">
         <button class="btn gold" style="margin-top:14px;" onclick="window.print()">🖨 Print / Download as PDF</button>
-        <div class="link-box">🔗 Is portal ka link hi admission form ka access link hai — ise parents ke sath WhatsApp ya email par share karein. Wo "Admin / Admission Form" tab se ye form khol kar print kar saktay hain.</div>
+        <div class="link-box">🔗 This portal's link is also the admission form's access link — share it with parents via WhatsApp or email. They can open and print this form from the "Admin / Admission Form" tab.</div>
       </div>`;
   }
 }
@@ -917,10 +1245,10 @@ function openEditStudent(id){
   const subjRowsHTML = (s.subjects.length ? s.subjects : [{name:'',theory:'',practical:'',max:100}]).map((sub,i) => subjRowHTML(sub,i)).join('');
   const hasAccount = !!s.authUid;
   const pwFieldHTML = hasAccount
-    ? `<div class="field"><label>Login Password</label><input id="f_pass" placeholder="Firebase account pehle se bana hua hai" disabled style="opacity:0.55;"></div>
-       <div class="stat-line" style="margin:-8px 0 4px;">🔒 Is student ka Firebase login already bana hua hai. Password yahan se reset nahi ho sakta — student "Change Password" se khud badal sakta hai.</div>`
+    ? `<div class="field"><label>Login Password</label><input id="f_pass" placeholder="Firebase account already created" disabled style="opacity:0.55;"></div>
+       <div class="stat-line" style="margin:-8px 0 4px;">🔒 This student's Firebase login already exists. The password cannot be reset from here — the student can change it themselves via "Change Password".</div>`
     : `<div class="field"><label>Set Initial Password</label><input id="f_pass" placeholder="Kam az kam 6 characters" type="text"></div>
-       <div class="stat-line" style="margin:-8px 0 4px;">Ye student ka pehla login password hoga — save karte hi Firebase account ban jayega. Student baad mein khud badal sakta hai.</div>`;
+       <div class="stat-line" style="margin:-8px 0 4px;">This will be the student's first login password — their Firebase account will be created as soon as you save. The student can change it themselves later.</div>`;
   const photoPreviewHTML = s.photoData
     ? `<img id="photoPreview" src="${s.photoData}" style="width:90px;height:105px;object-fit:cover;border-radius:8px;border:2px solid var(--gold);">`
     : `<div id="photoPreview" style="width:90px;height:105px;border-radius:8px;background:var(--green-soft);color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:22px;">${initials(s.name||'?')}</div>`;
@@ -1034,8 +1362,8 @@ function addActRow(){
 }
 async function saveStudentForm(existingId){
   const id = (document.getElementById('f_id').value.trim().toUpperCase());
-  if(!id){ showToast('Student ID zaroori hai'); return; }
-  if(!existingId && DB.students[id]){ showToast('Ye Student ID pehlay se maujood hai'); return; }
+  if(!id){ showToast('Student ID is required'); return; }
+  if(!existingId && DB.students[id]){ showToast('This Student ID already exists'); return; }
   const subjects = Array.from(document.querySelectorAll('#subjRows .subj-row')).map(row => ({
     name: row.querySelector('.sj-name').value.trim(),
     theory: Number(row.querySelector('.sj-theory').value)||0,
@@ -1054,19 +1382,19 @@ async function saveStudentForm(existingId){
 
   if(!authUid){
     const pwInput = document.getElementById('f_pass').value.trim();
-    if(!pwInput){ showToast('Naye student k liye initial password likhna zaroori hai'); return; }
-    if(pwInput.length < 6){ showToast('Password kam az kam 6 characters ka hona chahiye'); return; }
+    if(!pwInput){ showToast('An initial password is required for new students'); return; }
+    if(pwInput.length < 6){ showToast('Password must be at least 6 characters'); return; }
     const btn = document.getElementById('saveStudentBtn');
-    btn.disabled = true; btn.textContent = 'Firebase account ban raha hai…';
+    btn.disabled = true; btn.textContent = 'Creating Firebase account…';
     const result = await createStudentAuthAccount(id, pwInput);
     btn.disabled = false; btn.textContent = 'Save Student';
     if(result.ok){
       authUid = result.uid;
-      showToast('Firebase login account ban gaya');
+      showToast('Firebase login account created');
     } else if(result.code === 'auth/email-already-in-use'){
-      showToast('Is ID ka account pehle se Firebase mein maujood hai — record save ho raha hai.');
+      showToast('An account for this ID already exists in Firebase — saving the record.');
     } else {
-      showToast('Firebase account nahi ban saka. Student data phir bhi save ho raha hai.');
+      showToast('Could not create Firebase account. Saving student data anyway.');
     }
   }
 
@@ -1092,19 +1420,19 @@ async function saveStudentForm(existingId){
   await saveStudent(id);
   currentPhotoData = null;
   closeModal();
-  showToast('Student save ho gaya');
+  showToast('Student saved');
   switchTab('a-students');
 }
 async function confirmDeleteStudent(id){
   document.getElementById('modalInner').innerHTML = `
     <h3>Delete Student?</h3>
-    <div class="modal-body">Kya aap "${id}" (${DB.students[id].name}) ko permanently delete karna chahti hain? Ye action wapis nahi ho sakta.<br><br>⚠️ Note: Is student ka data delete ho jayega, laikin uska Firebase login account alag se active reh sakta hai (client-side se doosray user ka auth account delete nahi ho sakta). Wo phir bhi login karega laikin koi data nazar nahi aayega.</div>
+    <div class="modal-body">Are you sure you want to permanently delete "${id}" (${DB.students[id].name})? This action cannot be undone.<br><br>⚠️ Note: This student's data will be deleted, but their Firebase login account may remain active separately (a client-side app cannot delete another user's auth account). They will still be able to log in but will see no data.</div>
     <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn danger" onclick="doDeleteStudent('${id}')">Delete</button></div>`;
   document.getElementById('modalOverlay').style.display = 'flex';
 }
 async function doDeleteStudent(id){
   await deleteStudentKey(id);
-  closeModal(); showToast('Student delete ho gaya');
+  closeModal(); showToast('Student deleted');
   switchTab('a-students');
 }
 
@@ -1116,21 +1444,21 @@ function openAddAnnouncement(){
       <div class="field"><label>Tag</label><select id="an_tag"><option>Exam</option><option>Event</option><option>Notice</option><option>Fee</option><option>Holiday</option></select></div>
       <div class="field"><label>Title</label><input id="an_title" placeholder="e.g. Annual Sports Day"></div>
       <div class="field"><label>Date</label><input id="an_date" placeholder="e.g. 20 Aug 2026"></div>
-      <div class="field"><label>Details (Roman Urdu)</label><textarea id="an_body" rows="3" placeholder="Tafseel yahan likhein..."></textarea></div>
+      <div class="field"><label>Details</label><textarea id="an_body" rows="3" placeholder="Write the details here..."></textarea></div>
     </div>
     <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveAnnouncementForm()">Save</button></div>`;
   document.getElementById('modalOverlay').style.display = 'flex';
 }
 async function saveAnnouncementForm(){
   const title = document.getElementById('an_title').value.trim();
-  if(!title){ showToast('Title zaroori hai'); return; }
+  if(!title){ showToast('Title is required'); return; }
   DB.announcements.unshift({ id: 'a'+Date.now(), tag: document.getElementById('an_tag').value, title,
-    date: document.getElementById('an_date').value.trim() || 'Aaj', body: document.getElementById('an_body').value.trim() });
-  await saveAnnouncements(); closeModal(); showToast('Announcement add ho gaya'); switchTab('a-announcements');
+    date: document.getElementById('an_date').value.trim() || 'Today', body: document.getElementById('an_body').value.trim() });
+  await saveAnnouncements(); closeModal(); showToast('Announcement added'); switchTab('a-announcements');
 }
 async function deleteAnnouncement(id){
   DB.announcements = DB.announcements.filter(a => a.id !== id);
-  await saveAnnouncements(); showToast('Delete ho gaya'); switchTab('a-announcements');
+  await saveAnnouncements(); showToast('Deleted'); switchTab('a-announcements');
 }
 
 /* ================= MODALS: QUIZ/PAPERS ================= */
@@ -1147,93 +1475,106 @@ function openAddQuizPaper(){
 }
 async function saveQuizPaperForm(){
   const title = document.getElementById('qp_title').value.trim();
-  if(!title){ showToast('Title zaroori hai'); return; }
+  if(!title){ showToast('Title is required'); return; }
   const type = document.getElementById('qp_type').value;
   DB.quizpapers.unshift({ id:'q'+Date.now(), type, title, subtitle: document.getElementById('qp_sub').value.trim(), ic: type[0] });
-  await saveQuizPapers(); closeModal(); showToast('Add ho gaya'); switchTab('a-quiz');
+  await saveQuizPapers(); closeModal(); showToast('Added'); switchTab('a-quiz');
 }
 async function deleteQuizPaper(id){
   DB.quizpapers = DB.quizpapers.filter(q => q.id !== id);
-  await saveQuizPapers(); showToast('Delete ho gaya'); switchTab('a-quiz');
+  await saveQuizPapers(); showToast('Deleted'); switchTab('a-quiz');
 }
 
-/* ================= MODALS: CLASSES ================= */
-function openEditClass(id){
-  const c = id ? DB.classes.find(x=>x.id===id) : { name:'', teacher:'' };
+/* ================= DAILY DIARY (admin) ================= */
+function openAddDiary(){
+  const classOptions = ['All Classes', ...DB.classes.map(c => c.name)].map(c => `<option value="${escAttr(c)}">${c}</option>`).join('');
   document.getElementById('modalInner').innerHTML = `
-    <h3>${id ? 'Edit Class' : 'Add Class'}</h3>
+    <h3>Add Daily Diary Entry</h3>
     <div class="modal-body">
-      <div class="field"><label>Class / Section Name</label><input id="cl_name" value="${c.name}" placeholder="e.g. 8th Grade — Section A"></div>
-      <div class="field"><label>Class Teacher</label><input id="cl_teacher" value="${c.teacher||''}" placeholder="e.g. Ms. Sara Ahmed"></div>
+      <div class="field"><label>Class</label><select id="dy_class">${classOptions}</select></div>
+      <div class="field"><label>Date</label><input id="dy_date" placeholder="e.g. 25 Aug 2026" value="${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}"></div>
+      <div class="field"><label>Subject</label><input id="dy_subject" placeholder="e.g. Mathematics"></div>
+      <div class="field"><label style="display:flex; align-items:center; gap:6px; text-transform:none; font-size:13px;"><input type="checkbox" id="dy_homework" style="width:auto;"> This is homework</label></div>
+      <div class="field"><label>Notes / Homework Details</label><textarea id="dy_notes" rows="3" placeholder="What was taught in class today, or what the homework is..."></textarea></div>
     </div>
-    <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveClassForm(${id?`'${id}'`:null})">Save</button></div>`;
+    <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveDiaryForm()">Save</button></div>`;
   document.getElementById('modalOverlay').style.display = 'flex';
 }
-async function saveClassForm(id){
-  const name = document.getElementById('cl_name').value.trim();
-  if(!name){ showToast('Class name zaroori hai'); return; }
-  const teacher = document.getElementById('cl_teacher').value.trim();
-  if(id){ const c = DB.classes.find(x=>x.id===id); c.name=name; c.teacher=teacher; }
-  else { DB.classes.push({ id:'c'+Date.now(), name, teacher }); }
-  await saveClasses(); closeModal(); showToast('Class save ho gayi'); switchTab('a-classes');
+async function saveDiaryForm(){
+  const subject = document.getElementById('dy_subject').value.trim();
+  if(!subject){ showToast('Subject is required'); return; }
+  DB.diary.unshift({
+    id: 'd'+Date.now(),
+    className: document.getElementById('dy_class').value,
+    date: document.getElementById('dy_date').value.trim(),
+    subject,
+    homework: document.getElementById('dy_homework').checked,
+    notes: document.getElementById('dy_notes').value.trim(),
+  });
+  await saveDiary(); closeModal(); showToast('Diary entry added'); switchTab('a-diary');
 }
-async function deleteClass(id){
-  DB.classes = DB.classes.filter(c=>c.id!==id);
-  await saveClasses(); showToast('Class delete ho gayi'); switchTab('a-classes');
+async function deleteDiaryEntry(id){
+  DB.diary = DB.diary.filter(d => d.id !== id);
+  await saveDiary(); showToast('Deleted'); switchTab('a-diary');
 }
 
-/* ================= MODALS: TEACHERS ================= */
-function openEditTeacher(id){
-  const t = id ? DB.teachers.find(x=>x.id===id) : { name:'', subject:'', classAssigned:'', contact:'' };
+/* ================= COMPLAINTS (admin reply) ================= */
+function openReplyComplaint(studentId, complaintId){
+  const list = DB.allComplaints[studentId] || [];
+  const c = list.find(x => x.id === complaintId);
+  if(!c) return;
   document.getElementById('modalInner').innerHTML = `
-    <h3>${id ? 'Edit Teacher' : 'Add Teacher'}</h3>
+    <h3>Reply — ${escAttr(c.subject)}</h3>
     <div class="modal-body">
-      <div class="field"><label>Teacher Name</label><input id="tc_name" value="${t.name}" placeholder="e.g. Ms. Sara Ahmed"></div>
-      <div class="field"><label>Subject Taught</label><input id="tc_subject" value="${t.subject}" placeholder="e.g. Mathematics"></div>
-      <div class="field"><label>Class Assigned</label><input id="tc_class" value="${t.classAssigned||''}" placeholder="e.g. 9th Grade — Section A"></div>
-      <div class="field"><label>Contact No.</label><input id="tc_contact" value="${t.contact||''}" placeholder="03XX-XXXXXXX"></div>
+      <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">${c.message}</p>
+      <div class="field"><label>Status</label><select id="cr_status"><option value="Pending" ${c.status==='Pending'?'selected':''}>Pending</option><option value="Resolved" ${c.status==='Resolved'?'selected':''}>Resolved</option></select></div>
+      <div class="field"><label>Reply (student ko nazar aayega)</label><textarea id="cr_reply" rows="3">${c.reply||''}</textarea></div>
     </div>
-    <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveTeacherForm(${id?`'${id}'`:null})">Save</button></div>`;
+    <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveComplaintReply('${studentId}','${complaintId}')">Save</button></div>`;
   document.getElementById('modalOverlay').style.display = 'flex';
 }
-async function saveTeacherForm(id){
-  const name = document.getElementById('tc_name').value.trim();
-  if(!name){ showToast('Teacher name zaroori hai'); return; }
-  const rec = { name, subject: document.getElementById('tc_subject').value.trim(), classAssigned: document.getElementById('tc_class').value.trim(), contact: document.getElementById('tc_contact').value.trim() };
-  if(id){ const t = DB.teachers.find(x=>x.id===id); Object.assign(t, rec); }
-  else { DB.teachers.push({ id:'t'+Date.now(), ...rec }); }
-  await saveTeachers(); closeModal(); showToast('Teacher save ho gaya'); switchTab('a-teachers');
-}
-async function deleteTeacher(id){
-  DB.teachers = DB.teachers.filter(t=>t.id!==id);
-  await saveTeachers(); showToast('Teacher delete ho gaya'); switchTab('a-teachers');
+async function saveComplaintReply(studentId, complaintId){
+  const list = DB.allComplaints[studentId] || [];
+  const c = list.find(x => x.id === complaintId);
+  if(!c) return;
+  c.status = document.getElementById('cr_status').value;
+  c.reply = document.getElementById('cr_reply').value.trim();
+  await saveComplaintsFor(studentId, list);
+  closeModal(); showToast('Reply saved'); switchTab('a-complaints');
 }
 
-/* ================= GENERIC MODAL / TOAST ================= */
-function openInfoModal(title, body){
-  document.getElementById('modalInner').innerHTML = `<h3>${title}</h3><div class="modal-body">${body}</div><div class="modal-actions"><button class="btn gold" onclick="closeModal()">Theek Hai</button></div>`;
+/* ================= ASK TEACHER (admin/teacher reply) ================= */
+function openReplyQuestion(studentId, questionId){
+  const list = DB.allQuestions[studentId] || [];
+  const q = list.find(x => x.id === questionId);
+  if(!q) return;
+  document.getElementById('modalInner').innerHTML = `
+    <h3>Reply — ${escAttr(q.subject)}</h3>
+    <div class="modal-body">
+      <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">${q.message}</p>
+      <div class="field"><label>Status</label><select id="qr_status"><option value="Pending" ${q.status==='Pending'?'selected':''}>Pending</option><option value="Answered" ${q.status==='Answered'?'selected':''}>Answered</option></select></div>
+      <div class="field"><label>Your Reply</label><textarea id="qr_reply" rows="3">${q.reply||''}</textarea></div>
+    </div>
+    <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveQuestionReply('${studentId}','${questionId}')">Save</button></div>`;
   document.getElementById('modalOverlay').style.display = 'flex';
 }
-function closeModal(){ document.getElementById('modalOverlay').style.display = 'none'; }
-function showToast(msg){
-  const t = document.getElementById('toast'); t.textContent = msg; t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 2200);
+async function saveQuestionReply(studentId, questionId){
+  const list = DB.allQuestions[studentId] || [];
+  const q = list.find(x => x.id === questionId);
+  if(!q) return;
+  q.status = document.getElementById('qr_status').value;
+  q.reply = document.getElementById('qr_reply').value.trim();
+  await saveQuestionsFor(studentId, list);
+  closeModal(); showToast('Reply saved'); switchTab('a-questions');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  showLoginScreen();
-  document.getElementById('loginPass') && document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') attemptStudentLogin(); });
-});
-window.addEventListener('load', () => { if(document.getElementById('loadingScreen').style.display !== 'none') showLoginScreen(); });
-
-/* Expose functions to global scope so inline onclick="" handlers in HTML can reach them (required since this is a module script) */
-Object.assign(window, {
-  addActRow, addSubjRow, attemptAdminLogin, attemptStudentLogin, changeMyPassword, closeModal, confirmDeleteStudent,
-  deleteAnnouncement, deleteClass, deleteQuizPaper, deleteTeacher, doDeleteStudent, handlePhotoSelect,
-  logout, openAddAnnouncement, openAddQuizPaper, openEditClass, openEditStudent, openEditTeacher,
-  openInfoModal, saveAnnouncementForm, saveClassForm, saveQuizPaperForm, saveStudentForm, saveTeacherForm,
-  setRole, switchTab
-});
-</script>
-</body>
-</html>
+/* ================= SEND NOTICE TO PARENT (admin/teacher only) ================= */
+async function sendNoticeToParent(){
+  const studentId = document.getElementById('nt_student').value;
+  const from = document.getElementById('nt_from').value.trim() || 'School Admin';
+  const subject = document.getElementById('nt_subject').value.trim();
+  const message = document.getElementById('nt_message').value.trim();
+  const errEl = document.getElementById('ntError');
+  errEl.style.display = 'none';
+  if(!studentId){ errEl.textContent = 'Please select a student.'; errEl.style.display = 'block'; return; }
+  if(!subject || !message){ errEl.textContent = 'Please fill in 
