@@ -1,0 +1,14 @@
+{
+  "name": "The Arqam School — Student",
+  "short_name": "Arqam Student",
+  "description": "Student login for The Arqam School student portal.",
+  "start_url": "./index.html#student-only",
+  "display": "standalone",
+  "background_color": "#F6F7FB",
+  "theme_color": "#22245C",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
